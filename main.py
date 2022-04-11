@@ -2,9 +2,11 @@ from werkzeug.utils import redirect
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from forms.user import RegisterForm
-from flask import Flask, render_template
-from data import db_session
-from data.users import User, LoginForm
+from flask import Flask, render_template, request
+from data1 import db_session
+from data1.users import User, LoginForm
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -16,6 +18,32 @@ login_manager.init_app(app)
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+def latest_news(channel_name):
+    telegram_url = 'https://t.me/s/'
+    url = telegram_url + channel_name
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'lxml')
+    link = soup.find_all('a')
+    url = link[-1]['href']
+    url = url.replace('https://t.me/', '')
+    channel_name, news_id = url.split('/')
+    urls = []
+    for i in range(6):
+        urls.append(f'{channel_name}/{int(news_id) - i}')
+    return urls
+
+
+@app.route('/', methods=['GET', 'POST'])
+def main_page():
+    urls = 'economika/25528'
+    if request.method == "GET":
+        return render_template('telegram.html', url=urls)
+    else:
+        channel_name = request.form['adress']
+        urls = latest_news(channel_name)
+        return render_template('telegram.html', urls=urls)
 
 
 @app.route('/register', methods=['GET', 'POST'])
