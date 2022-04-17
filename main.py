@@ -3,8 +3,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 
 from forms.user import RegisterForm
 from flask import Flask, render_template, request
-from data import db_session
-from data.users import User, LoginForm
+from data1 import db_session
+from data1.users import User, LoginForm
 import requests
 from bs4 import BeautifulSoup
 
@@ -37,7 +37,7 @@ def latest_news(channel_name):
 
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
-    urls = 'economika/25528'
+    urls = []
     if request.method == "GET":
         return render_template('telegram.html', url=urls)
     else:
