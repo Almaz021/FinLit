@@ -1,0 +1,9 @@
+flask==2.0.2
+flask-Login==0.6.0
+flask-WTF==1.0.1
+sqlalchemy==1.4.31
+wtforms==3.0.1
+werkzeug==2.0.3
+requests==2.26.0
+beautifulsoup4==4.11.1
+lxml==4.8.0

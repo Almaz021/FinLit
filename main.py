@@ -1,10 +1,12 @@
+import os
+
 from werkzeug.utils import redirect
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from forms.user import RegisterForm
 from flask import Flask, render_template, request
-from data1 import db_session
-from data1.users import User, LoginForm
+from data import db_session
+from data.users import User, LoginForm
 import requests
 from bs4 import BeautifulSoup
 
@@ -43,7 +45,7 @@ def main_page():
     else:
         channel_name = request.form['adress']
         urls = latest_news(channel_name)
-        return render_template('telegram.html', urls=urls)
+        return render_template('telegram.html', title='FinLit', urls=urls)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -93,10 +95,7 @@ def logout():
     return redirect("/")
 
 
-def main():
-    db_session.global_init("db/blogs.db")
-    app.run()
-
-
 if __name__ == '__main__':
-    main()
+    db_session.global_init("db/users.db")
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)

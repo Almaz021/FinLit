@@ -3,3 +3,28 @@
     right: 5%;
     bottom: 5%;
  }
+
+.form {
+   position: fixed;
+   right: 75%;
+   bottom: 65%;
+}
+
+body {
+    -webkit-animation: colorchange 60s infinite;
+    animation: colorchange 60s infinite;
+}
+@-webkit-keyframes colorchange {
+     0%  {background: #87CEEB;}
+    25%  {background: #DA70D6;}
+    50%  {background: #1E90FF;}
+    75%  {background: #FFA07A;}
+    100% {background: #B0C4DE;}
+}
+@keyframes colorchange {
+     0%  {background: #87CEEB;}
+    25%  {background: #DA70D6;}
+    50%  {background: #1E90FF;}
+    75%  {background: #FFA07A;}
+    100% {background: #B0C4DE;}
+}
